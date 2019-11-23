@@ -1,0 +1,37 @@
+version: '3'
+services:
+    http:
+        build:
+            context: ./infrastructure/docker
+            dockerfile: Dockerfile_nginx
+        volumes:
+        - "./mysite.conf:/etc/nginx/conf.d/000_site.conf"
+        - "./src:/code"
+        labels:
+            maintainer: "Salle MPWAR Maintainers"
+        ports:
+            - "8085:80"
+        env_file:
+            - ./infrastructure/environments/development.env
+        depends_on:
+            - php-fpm
+            - redis
+    
+    php-fpm:
+        build:
+            context: ./infrastructure/docker
+            dockerfile: Dockerfile_php
+        volumes:
+        - "./src:/code"
+        labels:
+            maintainer: "Salle MPWAR Maintainers"
+    
+    redis:
+        build:
+            context: ./infrastructure/docker
+            dockerfile: Dockerfile_redis
+        labels:
+            maintainer: "Salle MPWAR Maintainers"
+        ports:
+        - "6379:6379"
+    
