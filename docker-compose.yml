@@ -23,6 +23,8 @@ services:
             dockerfile: Dockerfile_php
         volumes:
         - "./src:/code"
+        env_file:
+            - ./infrastructure/environments/development.env
         labels:
             maintainer: "Salle MPWAR Maintainers"
     
